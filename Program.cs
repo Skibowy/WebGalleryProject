@@ -69,7 +69,7 @@ builder.Services.AddControllersWithViews();
 var app = builder.Build();
 
 // Wstawianie danych testowych
-await SeedDatabase(app.Services);
+// await SeedDatabase(app.Services);
 
 // Middleware konfiguracja
 if (!app.Environment.IsDevelopment())
@@ -91,7 +91,7 @@ app.MapControllerRoute(
 
 app.Run();
 
-
+/*
 async Task SeedDatabase(IServiceProvider serviceProvider)
 {
     var categoryCollection = serviceProvider.GetRequiredService<IMongoCollection<Category>>();
@@ -138,3 +138,4 @@ async Task SeedDatabase(IServiceProvider serviceProvider)
     };
     await technologyCollection.InsertManyAsync(technologies);
 }
+*/
