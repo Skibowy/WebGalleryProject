@@ -1,24 +1,14 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using WebGalleryProject.Models;
 using WebGalleryProject.Settings;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
-using System.Xml.Linq;
-using static Microsoft.AspNetCore.Razor.Language.TagHelperMetadata;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Pobieranie konfiguracji MongoDB z appsettings.json
 var mongoDbSettings = builder.Configuration.GetSection(nameof(MongoDbConfig)).Get<MongoDbConfig>();
 
-// Dodanie Identity z MongoDB Stores, wykorzystuj¹c ConnectionString z MongoDbConfig
+// Dodanie Identity z MongoDB Stores, wykorzystujï¿½c ConnectionString z MongoDbConfig
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
 	.AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>(
 		mongoDbSettings.ConnectionString,
@@ -115,7 +105,7 @@ async Task SeedDatabase(IServiceProvider serviceProvider)
         new Category { Name = "Architektura" },
         new Category { Name = "Futurystyka" },
         new Category { Name = "Surrealizm" },
-        new Category { Name = "Kraskówka" },
+        new Category { Name = "Kraskï¿½wka" },
         new Category { Name = "Modernizm" },
         new Category { Name = "Sztuka historyczna" }
     };
@@ -140,7 +130,7 @@ async Task SeedDatabase(IServiceProvider serviceProvider)
     var technologyCollection = serviceProvider.GetRequiredService<IMongoCollection<Technology>>();
     var technologies = new List<Technology>
     {
-        new Technology { Name = "DALL·E 3 (OpenAI)", Url = "https://openai.com/dall-e-3" },
+        new Technology { Name = "DALLï¿½E 3 (OpenAI)", Url = "https://openai.com/dall-e-3" },
         new Technology { Name = "MidJourney", Url = "https://www.midjourney.com/home/" },
         new Technology { Name = "Artbreeder", Url = "https://www.artbreeder.com/" },
         new Technology { Name = "RunwayMLy", Url = "https://runwayml.com/" },
