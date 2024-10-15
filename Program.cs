@@ -69,7 +69,7 @@ builder.Services.AddControllersWithViews();
 var app = builder.Build();
 
 // Wstawianie danych testowych
-//await SeedDatabase(app.Services);
+await SeedDatabase(app.Services);
 
 // Middleware konfiguracja
 if (!app.Environment.IsDevelopment())
@@ -91,7 +91,7 @@ app.MapControllerRoute(
 
 app.Run();
 
-/*
+
 async Task SeedDatabase(IServiceProvider serviceProvider)
 {
     var categoryCollection = serviceProvider.GetRequiredService<IMongoCollection<Category>>();
@@ -111,19 +111,19 @@ async Task SeedDatabase(IServiceProvider serviceProvider)
     };
     await categoryCollection.InsertManyAsync(categories);
 
-    var tagCollection = serviceProvider.GetRequiredService<IMongoCollection<WebGallery.Models.Tag>>();
-    var tags = new List<WebGallery.Models.Tag>
+    var tagCollection = serviceProvider.GetRequiredService<IMongoCollection<WebGalleryProject.Models.Tag>>();
+    var tags = new List<WebGalleryProject.Models.Tag>
     {
-        new WebGallery.Models.Tag { Name = "Fantasy" },
-        new WebGallery.Models.Tag { Name = "Kultura popularna" },
-        new WebGallery.Models.Tag { Name = "Cyberpunk" },
-        new WebGallery.Models.Tag { Name = "Mitologia" },
-        new WebGallery.Models.Tag { Name = "Klasyka" },
-        new WebGallery.Models.Tag { Name = "Film i serial" },
-        new WebGallery.Models.Tag { Name = "Celebryci" },
-        new WebGallery.Models.Tag { Name = "Post-apo" },
-        new WebGallery.Models.Tag { Name = "Sci-fi" },
-        new WebGallery.Models.Tag { Name = "Komiks" }
+        new WebGalleryProject.Models.Tag { Name = "Fantasy" },
+        new WebGalleryProject.Models.Tag { Name = "Kultura popularna" },
+        new WebGalleryProject.Models.Tag { Name = "Cyberpunk" },
+        new WebGalleryProject.Models.Tag { Name = "Mitologia" },
+        new WebGalleryProject.Models.Tag { Name = "Klasyka" },
+        new WebGalleryProject.Models.Tag { Name = "Film i serial" },
+        new WebGalleryProject.Models.Tag { Name = "Celebryci" },
+        new WebGalleryProject.Models.Tag { Name = "Post-apo" },
+        new WebGalleryProject.Models.Tag { Name = "Sci-fi" },
+        new WebGalleryProject.Models.Tag { Name = "Komiks" }
     };
     await tagCollection.InsertManyAsync(tags);
 
@@ -138,4 +138,3 @@ async Task SeedDatabase(IServiceProvider serviceProvider)
     };
     await technologyCollection.InsertManyAsync(technologies);
 }
-*/
