@@ -1,0 +1,10 @@
+# Zastosuj LF dla wszystkich plików tekstowych
+* text=auto
+
+# Specyficznie dla CSS i JS
+*.css text eol=lf
+*.js text eol=lf
+
+# Ignorowanie plików binarnych
+*.bin binary
+*.exe binary
