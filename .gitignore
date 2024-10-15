@@ -1,0 +1,109 @@
+# Ignore build output directories
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider files
+.idea/
+*.sln.iml
+
+# ASP.NET Scaffolding
+.scaffolding/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userprefs
+*.userosscache
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Backup files
+*_backup_*.bak
+
+# Azure DevOps
+.vsts/
+
+# Local history for JetBrains IDEs
+.localhistory/
+
+# NCrunch
+.ncrunchsolution
+.ncrunchproject
+
+# Resharper
+_ReSharper.Caches/
+
+# Auto-generated files by Visual Studio
+Generated\ Files/
+
+# Log files
+*.log
+
+# npm packages
+node_modules/
+
+# Yarn packages
+.yarn/
+.pnp.*
+
+# Environment variables
+.env
+.env.*
+
+# Publish output
+publish/
+out/
+
+# Web server files
+wwwroot/node_modules/
+
+# Azure Web Apps artifacts
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET Core secrets folder
+**/secrets.json
+
+# ASP.NET Core Identity database
+app.db
+app.db-shm
+app.db-wal
+
+# IDE-specific folders
+.vscode/
+.idea/
+
+# Code coverage results
+coverage/
+*.coverage
+*.coveragexml
+
+# Debug and diagnostic files
+*.pdb
+*.cache
+*.orig
+*.bak
+*.swp
+*.swo
+*.sln.docstates
+*.err
