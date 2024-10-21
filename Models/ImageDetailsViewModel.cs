@@ -14,5 +14,6 @@ namespace WebGalleryProject.Models
         public Answer UserAnswer { get; set; }
         public int AnswersCount { get; set; } // Liczba odpowiedzi
         public DateTime CreatedDate { get; set; }
+        public string OwnerName { get; set; }
     }
 }
