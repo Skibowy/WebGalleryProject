@@ -1,0 +1,183 @@
+﻿@model WebGalleryProject.Models.ImageDetailsViewModel
+@using System.Security.Claims
+
+<div class="container">
+    <div class="row">
+        <!-- Sekcja ze zdjęciem -->
+        <div class="col-md-6">
+            <img src="data:image/png;base64,@Model.Image.Base64Image" alt="Image" class="img-fluid" />
+        </div>
+
+        <!-- Sekcja z danymi -->
+        <div class="col-md-6 d-flex flex-column">
+            <div class="card mb-3">
+                <div class="card-header">Details</div>
+                <div class="card-body">
+                    <p>
+                        <strong>Owner:</strong>
+                        @if (Model.Image.UserId != Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)))
+                        {
+                            <a href="@Url.Action("UserImages", "Images", new { userId = Model.Image.UserId })">@Model.OwnerName</a>
+                        }
+                        else
+                        {
+                            @Model.OwnerName
+                        }
+                    </p>
+                    <p><strong>Name:</strong> @Model.Image.Name</p> <!-- Imię zdjęcia -->
+                    <p><strong>Prompt:</strong> @Model.Image.Prompt</p>
+                    <p><strong>Category:</strong> @(Model.Category != null ? Model.Category.Name : "Brak kategorii")</p>
+
+                    <p>
+                        <strong>Technology:</strong>
+                        @if (Model.Technology != null)
+                        {
+                            <a href="@Url.Action("TechnologyIndex", "Images", new { id = Model.Technology.Id.ToString() })">@Model.Technology.Name</a>
+                            <span> - <a href="@Model.Technology.Url">tutaj</a></span>
+                        }
+                        else
+                        {
+                            <span>No Technology</span>
+                        }
+                    </p>
+
+                    <p>
+                        <strong>Tags:</strong>
+                        @if (Model.Tags.Any())
+                        {
+                            <ul>
+                                @foreach (var tag in Model.Tags)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("TagIndex", "Images", new { tagId = tag.Id.ToString() })">@tag.Name</a>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <span>No Tags</span>
+                        }
+                    </p>
+
+                    <p>
+                        <strong>Publication Date:</strong> @Model.Image.CreatedDate.ToString("yyyy-MM-dd")
+                    </p>
+                </div>
+            </div>
+
+            <!-- Sekcja z ratingiem i statystykami -->
+            <div class="card mb-3">
+                <div class="card-header">Statistics</div>
+                <div class="card-body">
+                    <h5>Average Rating: @Model.Image.AverageRating.ToString("F1")</h5>
+                    <h5>View Count: @Model.Image.ViewCount</h5>
+                    <h5>Answers Count: @Model.AnswersCount</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sekcja dla odpowiedzi na pytania -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            @if (User.Identity.IsAuthenticated && Model.Image.UserId != Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)))
+            {
+                @if (!Model.HasUserAnswered)
+                {
+                    <h3>Answer the Questions</h3>
+                    @using (Html.BeginForm("AddAnswer", "Image", new { id = Model.Image.Id.ToString() }, FormMethod.Post))
+                    {
+                        for (int i = 0; i < WebGalleryProject.Models.Question.Questions.Length; i++)
+                        {
+                            <div class="form-group">
+                                <label>@WebGalleryProject.Models.Question.Questions[i]</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="BoolAnswer@(i + 1)" id="BoolAnswer@(i + 1)Yes" value="true" required>
+                                    <label class="form-check-label" for="BoolAnswer@(i + 1)Yes">Yes</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="BoolAnswer@(i + 1)" id="BoolAnswer@(i + 1)No" value="false" required>
+                                    <label class="form-check-label" for="BoolAnswer@(i + 1)No">No</label>
+                                </div>
+                            </div>
+                        }
+                        <div class="form-group">
+                            <label>Rate this image:</label>
+                            <input type="range" name="RatingAnswer" class="form-range" min="1" max="5" step="1" required>
+                            <small class="form-text text-muted">Rate from 1 to 5</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    }
+                }
+                else
+                {
+                    <h3>You have already answered the questions for this image.</h3>
+                }
+            }
+        </div>
+    </div>
+
+    <!-- Sekcja komentarzy -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h3>Comments</h3>
+            <ul class="list-group" id="commentList">
+                @foreach (var comment in Model.Comments)
+                {
+                    <li class="list-group-item" data-user-id="@comment.UserId">
+                        <strong class="user-name">Loading...</strong> - @comment.CreatedDate.ToString("g")
+                        <p>@comment.Content</p>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <!-- Formularz dodawania komentarzy -->
+    @if (User.Identity.IsAuthenticated && Model.Image.UserId != Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)))
+    {
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h3>Add a Comment</h3>
+                @using (Html.BeginForm("AddComment", "Image", new { id = Model.Image.Id.ToString() }, FormMethod.Post))
+                {
+                    <div class="form-group">
+                        <label for="content">Comment:</label>
+                        <textarea id="content" name="Content" class="form-control" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const commentList = document.getElementById('commentList');
+            const commentItems = commentList.querySelectorAll('li');
+
+            commentItems.forEach(async (item) => {
+                const userId = item.getAttribute('data-user-id');
+
+                if (userId) {
+                    try {
+                        const response = await fetch(`/User/GetUserName?userId=${userId}`);
+                        if (response.ok) {
+                            const userName = await response.json();
+                            item.querySelector('.user-name').textContent = userName;
+                        } else {
+                            item.querySelector('.user-name').textContent = "Unknown User";
+                        }
+                    } catch (error) {
+                        console.error('Error fetching user name:', error);
+                        item.querySelector('.user-name').textContent = "Error fetching name";
+                    }
+                }
+            });
+        });
+    </script>
+}
+    

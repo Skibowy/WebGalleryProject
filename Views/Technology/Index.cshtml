@@ -1,0 +1,30 @@
+﻿@model IEnumerable<WebGalleryProject.Models.Technology>
+
+<h2>Technologies</h2>
+
+<a asp-action="Create" class="btn btn-primary">Create New Technology</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Url</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var technology in Model)
+        {
+            <tr>
+                <td>@technology.Name</td>
+                <td>@technology.Url</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@technology.Id" class="btn btn-sm btn-secondary">Edit</a>
+                    <form asp-action="Delete" asp-route-id="@technology.Id" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

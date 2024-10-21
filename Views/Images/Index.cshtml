@@ -1,0 +1,68 @@
+﻿@model IEnumerable<WebGalleryProject.Models.Image>
+@{
+    ViewBag.Title = "Images";
+}
+
+<div class="container">
+
+    <!-- Kategorie -->
+    <div class="mb-3">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link @(ViewBag.SelectedCategory == null ? "active" : "")" href="@Url.Action("Index", "Images")">All</a>
+            </li>
+            @foreach (var category in ViewBag.Categories)
+            {
+                <li class="nav-item">
+                    <a class="nav-link @(ViewBag.SelectedCategory != null && ViewBag.SelectedCategory.Id == category.Id ? "active" : "")" href="@Url.Action("Index", "Images", new { categoryId = category.Id.ToString() })">@category.Name</a>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <!-- Filtruj, Sortuj i Szukaj -->
+    @using (Html.BeginForm("Index", "Images", FormMethod.Get))
+    {
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <select name="filter" class="form-select" onchange="this.form.submit()">
+                    <option value="">Filter by Date</option>
+                    <option value="today">Today</option>
+                    <option value="week">This Week</option>
+                    <option value="month">This Month</option>
+                    <option value="all">All Time</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <select name="sort" class="form-select" onchange="this.form.submit()">
+                    <option value="">Sort by</option>
+                    <option value="date">Date</option>
+                    <option value="rating">Rating</option>
+                    <option value="views">Views</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <input type="text" name="searchQuery" class="form-control" placeholder="Search by Name" value="@Context.Request.Query["searchQuery"]" />
+            </div>
+        </div>
+    }
+
+    <!-- Lista obrazów -->
+    @if (!Model.Any())
+    {
+        <p>No images available.</p>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var image in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <a href="@Url.Action("Details", "Image", new { id = image.Id.ToString() })">
+                        <img src="data:image/png;base64,@image.Base64Image" class="img-fluid" alt="Image" style="width: 100%; height: 200px; object-fit: cover; border: 2px solid #007bff; border-radius: 5px; cursor: pointer;" />
+                    </a>
+                </div>
+            }
+        </div>
+    }
+</div>

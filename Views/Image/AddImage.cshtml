@@ -1,0 +1,148 @@
+﻿@model WebGalleryProject.Models.AddImageViewModel
+
+@{
+    ViewData["Title"] = "Add Image";
+}
+
+<h2>Add Image</h2>
+
+<form asp-action="AddImage" enctype="multipart/form-data" method="post">
+    <!-- Kontener dla nazwy -->
+    <div class="container mb-3">
+        <div class="row">
+            <div class="col">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kontener dla promptu -->
+    <div class="container mb-3">
+        <div class="row">
+            <div class="col">
+                <label asp-for="Prompt"></label>
+                <input asp-for="Prompt" class="form-control" />
+                <span asp-validation-for="Prompt" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kontener dla IsPublic -->
+    <div class="container mb-3">
+        <div class="row">
+            <div class="col">
+                <label asp-for="IsPublic"></label>
+                <input asp-for="IsPublic" type="checkbox" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Kontener dla pliku obrazu -->
+    <div class="container mb-3">
+        <div class="row">
+            <div class="col">
+                <label asp-for="ImageFile"></label>
+                <input asp-for="ImageFile" type="file" class="form-control" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kontener dla tagów (wszystkie w jednej linii) -->
+    <div class="container mb-3">
+        <div class="row form-row">
+            <div class="col">
+                <label for="SelectedTag1">Tag 1:</label>
+                <select asp-for="SelectedTag1" class="form-control">
+                    <option value="">Select a tag</option>
+                    @foreach (var tag in ViewBag.Tags)
+                    {
+                        <option value="@tag.Id">@tag.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="SelectedTag1" class="text-danger"></span>
+            </div>
+
+            <div class="col">
+                <label for="SelectedTag2">Tag 2:</label>
+                <select asp-for="SelectedTag2" class="form-control">
+                    <option value="">Select a tag</option>
+                    @foreach (var tag in ViewBag.Tags)
+                    {
+                        <option value="@tag.Id">@tag.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col">
+                <label for="SelectedTag3">Tag 3:</label>
+                <select asp-for="SelectedTag3" class="form-control">
+                    <option value="">Select a tag</option>
+                    @foreach (var tag in ViewBag.Tags)
+                    {
+                        <option value="@tag.Id">@tag.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kontener dla kategorii -->
+    <div class="container mb-3">
+        <div class="row">
+            <div class="col">
+                <label for="SelectedCategoryId">Category:</label>
+                <select asp-for="SelectedCategoryId" class="form-control">
+                    @foreach (var category in ViewBag.Categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kontener dla technologii -->
+    <div class="container mb-3">
+        <div class="row">
+            <div class="col">
+                <label for="SelectedTechnologyId">Technology:</label>
+                <select asp-for="SelectedTechnologyId" class="form-control">
+                    <option value="">Select a technology</option>
+                    @foreach (var technology in ViewBag.Technologies)
+                    {
+                        <option value="@technology.Id">@technology.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kontener dla przycisku Submit -->
+    <div class="container mb-3">
+        <div class="row">
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        // Funkcja do sprawdzenia, czy wybrane tagi są unikalne
+        document.querySelector('form').addEventListener('submit', function (event) {
+            var tag1 = document.querySelector('select[name="SelectedTag1"]').value;
+            var tag2 = document.querySelector('select[name="SelectedTag2"]').value;
+            var tag3 = document.querySelector('select[name="SelectedTag3"]').value;
+
+            // Sprawdzenie, czy tagi są unikalne
+            if ((tag1 && tag1 === tag2) || (tag1 && tag1 === tag3) || (tag2 && tag2 === tag3)) {
+                event.preventDefault(); // Zatrzymanie wysyłania formularza
+                alert("Please select unique tags.");
+            }
+        });
+    </script>
+}
