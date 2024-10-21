@@ -1,0 +1,121 @@
+﻿@model IEnumerable<WebGalleryProject.Models.Image>
+
+@{
+    ViewData["Title"] = "Profil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        margin: 0; /* Usuń marginesy z ciała */
+        padding: 0; /* Usuń padding */
+    }
+
+    .image-gallery {
+        margin-top: 20px;
+    }
+
+    .image-container {
+        background-color: rgba(211, 211, 211, 0.5);
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        padding: 15px;
+    }
+
+    .card {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    /* Dodanie stylów dla sekcji użytkownika */
+    .user-data-container {
+        background-color: rgba(211, 211, 211, 0.5); /* Tło pozostałe */
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px; /* Odstęp od innych sekcji */
+    }
+
+    .profile-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%; /* Zapewnia, że nagłówek zajmuje całą szerokość */
+        padding: 20px 0; /* Dodaje padding do góry i dołu */
+        /* Tło usunięte, aby nie było białego kontenera */
+    }
+</style>
+
+<!-- Nagłówek profilu -->
+<div class="row">
+    <div class="col-md-12 user-data-container">
+        <div class="profile-header">
+            <div class="d-flex flex-column">
+                <h3 class="mb-0">Witaj, @User.Identity.Name!</h3>
+                <p class="mb-0">
+                    Email: @User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value
+                </p>
+                <p class="mb-0">
+                    Liczba zdjęć: @Model.Count()
+                </p>
+            </div>
+
+            <!-- Dodaj przycisk do edytowania danych użytkownika -->
+            <a asp-action="Settings" asp-controller="Account" class="btn btn-secondary">Edit Account Settings</a>
+        </div>
+    </div>
+</div>
+
+<!-- Publiczne zdjęcia -->
+<div class="image-gallery mb-4">
+    <div class="image-container">
+        <h3>Zdjęcia Publiczne</h3>
+        <div class="row">
+            @foreach (var image in Model.Where(i => i.IsPublic))
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <a href="@Url.Action("Details", "Image", new { id = image.Id })">
+                            <img src="data:image/png;base64,@image.Base64Image" class="card-img-top" alt="@image.Name" style="height: 200px; object-fit: cover;" />
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">@image.Name</h5>
+                            <div class="d-flex justify-content-between">
+                                <a href="@Url.Action("Edit", "Image", new { id = image.Id })" class="btn btn-warning">Edit</a>
+                                <a href="@Url.Action("Delete", "Image", new { id = image.Id })" class="btn btn-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <a href="@Url.Action("AddImage", "Image")" class="btn btn-primary">Add Image</a>
+    </div>
+</div>
+
+<!-- Prywatne zdjęcia -->
+<div class="image-gallery mb-4">
+    <div class="image-container">
+        <h3>Zdjęcia Prywatne</h3>
+        <div class="row">
+            @foreach (var image in Model.Where(i => !i.IsPublic))
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <a href="@Url.Action("Details", "Image", new { id = image.Id })">
+                            <img src="data:image/png;base64,@image.Base64Image" class="card-img-top" alt="@image.Name" style="height: 200px; object-fit: cover;" />
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">@image.Name</h5>
+                            <div class="d-flex justify-content-between">
+                                <a href="@Url.Action("Edit", "Image", new { id = image.Id })" class="btn btn-warning">Edit</a>
+                                <a href="@Url.Action("Delete", "Image", new { id = image.Id })" class="btn btn-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <a href="@Url.Action("AddImage", "Image")" class="btn btn-primary">Add Image</a>
+    </div>
+</div>

@@ -1,32 +1,47 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using MongoDB.Driver;
 using WebGalleryProject.Models;
 
 namespace WebGalleryProject.Controllers
 {
 	public class HomeController : Controller
-	{
-		private readonly ILogger<HomeController> _logger;
+    {
+        private readonly IMongoCollection<Image> _imageCollection;
+        private readonly IMongoCollection<Answer> _answerCollection;
 
-		public HomeController(ILogger<HomeController> logger)
-		{
-			_logger = logger;
-		}
+        public HomeController(IMongoCollection<Image> imageCollection, IMongoCollection<Answer> answerCollection)
+        {
+            _imageCollection = imageCollection;
+            _answerCollection = answerCollection;
+        }
 
-		public IActionResult Index()
-		{
-			return View();
-		}
+        public async Task<IActionResult> Index()
+        {
+            var publicImages = await _imageCollection
+                .Find(image => image.IsPublic)
+                .ToListAsync();
 
-		public IActionResult Privacy()
-		{
-			return View();
-		}
+            foreach (var image in publicImages)
+            {
+                var answers = await _answerCollection.Find(a => a.ImageId == image.Id).ToListAsync();
+                if (answers.Count > 0)
+                {
+                    image.AverageRating = answers.Average(a => a.RatingAnswer);
+                }
+                else
+                {
+                    image.AverageRating = 0;
+                }
+            }
 
-		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-		public IActionResult Error()
-		{
-			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-		}
-	}
+
+            var topRatedImages = publicImages.OrderByDescending(i => i.AverageRating).Take(5).ToList();
+
+            var mostViewedImages = publicImages.OrderByDescending(i => i.ViewCount).Take(5).ToList();
+
+            ViewBag.TopRatedImages = topRatedImages;
+            ViewBag.MostViewedImages = mostViewedImages; 
+            return View(publicImages);
+        }
+    }
 }
