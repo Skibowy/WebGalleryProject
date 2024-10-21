@@ -1,8 +1,82 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<WebGalleryProject.Models.Image>
+
+@{
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    .image-container {
+        background-color: rgba(211, 211, 211, 0.5); /* matowe szare tło */
+        border: 2px solid #ccc; /* szare obramowanie */
+        border-radius: 10px; /* zaokrąglenie rogów */
+        padding: 15px; /* odstęp wewnętrzny */
+        margin-bottom: 20px; /* odstęp między kontenerami */
+    }
+
+        .image-container h2 {
+            margin-bottom: 15px; /* odstęp poniżej nagłówka */
+        }
+</style>
+
+<div class="container mb-4 image-container">
+    <div class="row">
+        <div class="col-md-4 mb-4 text-center">
+            <h2>
+                <a href="@Url.Action("Index", "Images", new { sort = "date" })" style="text-decoration: none; color: inherit;">Najnowsze zdjęcia</a>
+            </h2>
+        </div>
+        @foreach (var image in Model.OrderByDescending(i => i.CreatedDate).Take(5))
+        {
+            <div class="col-md-4 mb-4">
+                <a href="@Url.Action("Details", "Image", new { id = image.Id })">
+                    <img src="data:image/png;base64,@image.Base64Image"
+                         class="img-fluid"
+                         alt="@image.Name"
+                         style="width: 100%; height: 200px; object-fit: cover; border: 2px solid #007bff; border-radius: 5px; cursor: pointer;" />
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="container mb-4 image-container">
+    <div class="row">
+        <div class="col-md-4 mb-4 text-center">
+            <h2>
+                <a href="@Url.Action("Index", "Images", new { sort = "views" })" style="text-decoration: none; color: inherit;">Najpopularniejsze zdjęcia</a>
+            </h2>
+        </div>
+        @foreach (var viewedImage in ViewBag.MostViewedImages as List<Image>)
+        {
+            <div class="col-md-4 mb-4">
+                <a href="@Url.Action("Details", "Image", new { id = viewedImage.Id.ToString() })">
+                    <img src="data:image/png;base64,@viewedImage.Base64Image"
+                         class="img-fluid"
+                         alt="@viewedImage.Name"
+                         style="width: 100%; height: 200px; object-fit: cover; border: 2px solid #28a745; border-radius: 5px; cursor: pointer;" />
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="container mb-4 image-container">
+    <div class="row">
+        <div class="col-md-4 mb-4 text-center">
+            <h2>
+                <a href="@Url.Action("Index", "Images", new { sort = "rating" })" style="text-decoration: none; color: inherit;">Najwyżej oceniane zdjęcia</a>
+            </h2>
+        </div>
+        @foreach (var topImage in ViewBag.TopRatedImages as List<Image>)
+        {
+            <div class="col-md-4 mb-4">
+                <a href="@Url.Action("Details", "Image", new { id = topImage.Id.ToString() })">
+                    <img src="data:image/png;base64,@topImage.Base64Image"
+                         class="img-fluid"
+                         alt="@topImage.Name"
+                         style="width: 100%; height: 200px; object-fit: cover; border: 2px solid #ffc107; border-radius: 5px; cursor: pointer;" />
+                </a>
+            </div>
+        }
+    </div>
 </div>
