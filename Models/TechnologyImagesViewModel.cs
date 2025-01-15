@@ -1,4 +1,4 @@
-﻿namespace WebGalleryProject.Models
+﻿namespace MongoWebGallery.Models
 {
     public class TechnologyImagesViewModel
     {

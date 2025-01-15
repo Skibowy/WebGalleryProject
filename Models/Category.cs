@@ -1,12 +1,15 @@
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDbGenericRepository.Attributes;
-namespace WebGalleryProject.Models;
+using System.Collections.Generic;
 
-[CollectionName("Categories")]
-public class Category
+namespace MongoWebGallery.Models
 {
-    [BsonId]
-    public ObjectId Id { get; set; }
-    public string Name { get; set; }
+    [CollectionName("Categories")]
+    public class Category
+    {
+        [BsonId]
+        public ObjectId Id { get; set; }
+        public string Name { get; set; }
+    }
 }

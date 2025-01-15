@@ -1,10 +1,20 @@
-﻿@model WebGalleryProject.Models.Image
+﻿@model MongoWebGallery.Models.Image
 
-<h2>Delete Image</h2>
-<p>Are you sure you want to delete the image <strong>@Model.Name</strong>?</p>
+<div class="container">
+    <h2 class="mb-4">Usuń zdjęcie</h2>
+    <p class="mb-3">Czy na pewno chcesz usunąć zdjęcie <strong>@Model.Name</strong>?</p>
 
-<form asp-action="DeleteConfirmed" method="post">
-    <input type="hidden" name="id" value="@Model.Id" />
-    <button type="submit">Delete</button>
-    <a asp-action="Details" asp-route-id="@Model.Id">Cancel</a>
-</form>
+    <form asp-action="DeleteConfirmed" method="post" class="d-flex flex-column">
+        <input type="hidden" name="id" value="@Model.Id" />
+
+        <div class="d-flex justify-content-between mt-3">
+            <button type="submit" class="btn btn-danger">
+                <i class="fas fa-trash-alt me-2"></i>Usuń
+            </button>
+
+            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">
+                <i class="fas fa-times-circle me-2"></i>Anuluj
+            </a>
+        </div>
+    </form>
+</div>

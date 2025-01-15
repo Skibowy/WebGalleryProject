@@ -1,19 +1,18 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebGalleryProject</title>
+    <title>@ViewData["Title"] - GenArt</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/WebGalleryProject.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/MongoWebGallery.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-0">
-            <!-- zmiana marginesu na mb-0 -->
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebGalleryProject</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GenArt</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -21,21 +20,28 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Strona główna</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Images" asp-action="Index">Images</a>
+                            <a class="nav-link text-dark" asp-controller="Images" asp-action="Index">Galeria Obrazów</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Ranking" asp-action="Index">Ranking</a>
+                        </li>
+
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Category" asp-action="Index">Categories</a>
+                                <a class="nav-link text-dark" asp-controller="Category" asp-action="Index">Kategorie</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Tag" asp-action="Index">Tags</a>
+                                <a class="nav-link text-dark" asp-controller="Tag" asp-action="Index">Tagi</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Technology" asp-action="Index">Technologies</a>
+                                <a class="nav-link text-dark" asp-controller="Technology" asp-action="Index">Technologie</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Admin" asp-action="ManageTechnologies">Zatwierdź Technologie</a>
                             </li>
                         }
                     </ul>
@@ -64,15 +70,15 @@
         </nav>
     </header>
     <main role="main" class="pb-0">
-        <!-- zmiana paddingu na pb-0 -->
         @RenderBody()
     </main>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer border-top text-muted text-center">
         <div class="container">
-            &copy; 2024 - WebGalleryProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - GenArt
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

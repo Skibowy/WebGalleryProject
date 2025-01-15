@@ -1,7 +1,7 @@
-
-namespace WebGalleryProject.Models;
-
-public class UserRole
+﻿namespace MongoWebGallery.Models
 {
-    public string RoleName { get; set; }
+    public class UserRole
+    {
+        public string RoleName { get; set; }
+    }
 }

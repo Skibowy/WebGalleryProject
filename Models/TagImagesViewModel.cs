@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WebGalleryProject.Models
+namespace MongoWebGallery.Models
 {
     public class TagImagesViewModel
     {

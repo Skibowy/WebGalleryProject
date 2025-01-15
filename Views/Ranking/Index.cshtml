@@ -1,0 +1,33 @@
+﻿@model List<MongoWebGallery.Models.TechnologyRankingViewModel>
+
+<div class="container my-5">
+    <div class="bg-dark bg-opacity-75 p-4 rounded shadow">
+        <h2 class="text-white mb-4">Ranking generatorów</h2>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-dark">
+                <thead>
+                    <tr>
+                        <th class="text-start">Nazwa</th>
+                        <th class="text-center">Wynik</th>
+                        <th class="text-center">Liczba ocen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ranking in Model)
+                    {
+                        <tr>
+                            <td>
+                                <a class="ranking-link text-white" href="@Url.Action("TechnologyIndex", "Images", new { id = ranking.TechnologyId.ToString() })">
+                                    @ranking.TechnologyName
+                                </a>
+                            </td>
+                            <td class="text-center">@ranking.AverageRating.ToString("F2")</td>
+                            <td class="text-center">@ranking.NumberOfAnswers</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

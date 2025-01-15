@@ -1,0 +1,50 @@
+﻿@model IEnumerable<MongoWebGallery.Models.Technology>
+
+<div class="container my-5">
+    <div class="bg-dark bg-opacity-75 p-4 rounded shadow">
+        <h2 class="text-white mb-4">Technologie do zatwierdzenia</h2>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-dark">
+                <thead>
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>URL</th>
+                        <th>Zgłoszone przez</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var technology in Model)
+                    {
+                        <tr>
+                            <td>@technology.Name</td>
+                            <td><a href="@technology.Url" target="_blank" class="text-info">@technology.Url</a></td>
+                            <td>@technology.SubmittedBy</td>
+                            <td>
+                                <div class="d-flex justify-content-center">
+                                    <form asp-action="ApproveTechnology" asp-controller="Admin" method="post" style="margin-right: 5px;">
+                                        <input type="hidden" name="id" value="@technology.Id" />
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <i class="fas fa-check"></i> Zatwierdź
+                                        </button>
+                                    </form>
+                                    <form asp-action="DeleteTechnology" asp-controller="Admin" method="post">
+                                        <input type="hidden" name="id" value="@technology.Id" />
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i> Usuń
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+}

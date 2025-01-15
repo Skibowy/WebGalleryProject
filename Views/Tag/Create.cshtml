@@ -1,17 +1,22 @@
-﻿@model WebGalleryProject.Models.Tag
+﻿@model MongoWebGallery.Models.Tag
 
 @{
-    ViewData["Title"] = "Create Tag";
+    ViewData["Title"] = "Utwórz tag";
 }
 
-<h2>Create Tag</h2>
-
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+<div class="container my-5">
+    <div class="bg-dark bg-opacity-75 p-4 rounded shadow">
+        <h2 class="text-white mb-4">Utwórz tag</h2>
+        <form asp-action="Create" method="post" class="shadow-lg p-4 bg-light rounded mx-auto" style="max-width: 600px;">
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="form-label">Nazwa</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Utwórz</button>
+                <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+            </div>
+        </form>
     </div>
-
-    <button type="submit" class="btn btn-primary">Create</button>
-</form>
+</div>

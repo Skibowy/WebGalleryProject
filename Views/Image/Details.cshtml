@@ -1,162 +1,170 @@
-﻿@model WebGalleryProject.Models.ImageDetailsViewModel
+﻿@model MongoWebGallery.Models.ImageDetailsViewModel
 @using System.Security.Claims
 
 <div class="container">
     <div class="row">
-        <!-- Sekcja ze zdjęciem -->
-        <div class="col-md-6">
-            <img src="data:image/png;base64,@Model.Image.Base64Image" alt="Image" class="img-fluid" />
-        </div>
+        <div class="col-md-12 details-container">
+            <div class="row">
+                <div class="col-md-6 position-relative">
+                    <img src="data:image/png;base64,@Model.Image.Base64Image" alt="Obraz" class="img-fluid" />
+                </div>
 
-        <!-- Sekcja z danymi -->
-        <div class="col-md-6 d-flex flex-column">
-            <div class="card mb-3">
-                <div class="card-header">Details</div>
-                <div class="card-body">
-                    <p>
-                        <strong>Owner:</strong>
-                        @if (Model.Image.UserId != Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)))
-                        {
-                            <a href="@Url.Action("UserImages", "Images", new { userId = Model.Image.UserId })">@Model.OwnerName</a>
-                        }
-                        else
-                        {
-                            @Model.OwnerName
-                        }
-                    </p>
-                    <p><strong>Name:</strong> @Model.Image.Name</p> <!-- Imię zdjęcia -->
-                    <p><strong>Prompt:</strong> @Model.Image.Prompt</p>
-                    <p><strong>Category:</strong> @(Model.Category != null ? Model.Category.Name : "Brak kategorii")</p>
-
-                    <p>
-                        <strong>Technology:</strong>
-                        @if (Model.Technology != null)
-                        {
-                            <a href="@Url.Action("TechnologyIndex", "Images", new { id = Model.Technology.Id.ToString() })">@Model.Technology.Name</a>
-                            <span> - <a href="@Model.Technology.Url">tutaj</a></span>
-                        }
-                        else
-                        {
-                            <span>No Technology</span>
-                        }
-                    </p>
-
-                    <p>
-                        <strong>Tags:</strong>
-                        @if (Model.Tags.Any())
-                        {
-                            <ul>
-                                @foreach (var tag in Model.Tags)
+                <div class="col-md-6 d-flex flex-column">
+                    <div class="card mb-3">
+                        <div class="card-header">Dane Techniczne</div>
+                        <div class="card-body">
+                            <p>
+                                <strong>Właściciel:</strong>
+                                @if (Model.Image.UserId != Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)))
                                 {
-                                    <li>
-                                        <a href="@Url.Action("TagIndex", "Images", new { tagId = tag.Id.ToString() })">@tag.Name</a>
-                                    </li>
+                                    <a href="@Url.Action("UserImages", "Images", new { userId = Model.Image.UserId })">@Model.OwnerName</a>
                                 }
-                            </ul>
-                        }
-                        else
-                        {
-                            <span>No Tags</span>
-                        }
-                    </p>
+                                else
+                                {
+                                    @Model.OwnerName
+                                }
+                            </p>
+                            <p><strong>Nazwa:</strong> @Model.Image.Name</p>
+                            <p><strong>Prompt:</strong> @Model.Image.Prompt</p>
+                            <p><strong>Kategoria:</strong> @(Model.Category != null ? Model.Category.Name : "Brak kategorii")</p>
 
-                    <p>
-                        <strong>Publication Date:</strong> @Model.Image.CreatedDate.ToString("yyyy-MM-dd")
-                    </p>
-                </div>
-            </div>
+                            <p>
+                                <strong>Technologia:</strong>
+                                @if (Model.Technology != null)
+                                {
+                                    @if (Model.Technology.IsApproved)
+                                    {
+                                        <a href="@Url.Action("TechnologyIndex", "Images", new { id = Model.Technology.Id.ToString() })">@Model.Technology.Name</a>
+                                        <span> - <a href="@Model.Technology.Url">Sprawdź Sam!</a></span>
+                                    }
+                                    else
+                                    {
+                                        <span>Technologia w trakcie walidacji</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Technologia została odrzucona</span>
+                                }
+                            </p>
 
-            <!-- Sekcja z ratingiem i statystykami -->
-            <div class="card mb-3">
-                <div class="card-header">Statistics</div>
-                <div class="card-body">
-                    <h5>Average Rating: @Model.Image.AverageRating.ToString("F1")</h5>
-                    <h5>View Count: @Model.Image.ViewCount</h5>
-                    <h5>Answers Count: @Model.AnswersCount</h5>
+                            <p>
+                                <strong>Tagi:</strong>
+                                @if (Model.Tags != null && Model.Tags.Any())
+                                {
+                                    <ul>
+                                        @foreach (var tag in Model.Tags)
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("TagIndex", "Images", new { tagId = tag.Id.ToString() })">@tag.Name</a>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <span>Brak tagów</span>
+                                }
+                            </p>
+
+                            <p>
+                                <strong>Data publikacji:</strong> @Model.Image.CreatedDate.ToString("yyyy-MM-dd")
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-header">Statystyki</div>
+                        <div class="card-body">
+                            <h5>Średnia ocena: @Model.Image.AverageRating.ToString("F1")</h5>
+                            <h5>Liczba wyświetleń: @Model.Image.ViewCount</h5>
+                            <h5>Liczba odpowiedzi: @Model.AnswersCount</h5>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-3">
+                        <a href="@Url.Action("Download", "Image", new { id = Model.Image.Id.ToString() })" class="btn btn-primary">
+                            Pobierz
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Sekcja dla odpowiedzi na pytania -->
-    <div class="row mt-4">
-        <div class="col-md-12">
+        <div class="col-md-12 rating-section">
             @if (User.Identity.IsAuthenticated && Model.Image.UserId != Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)))
             {
-                @if (!Model.HasUserAnswered)
-                {
-                    <h3>Answer the Questions</h3>
-                    @using (Html.BeginForm("AddAnswer", "Image", new { id = Model.Image.Id.ToString() }, FormMethod.Post))
-                    {
-                        for (int i = 0; i < WebGalleryProject.Models.Question.Questions.Length; i++)
+                <div class="card mb-3 transparent-bg">
+                    <div class="card-body">
+                        @if (!Model.HasUserAnswered)
                         {
-                            <div class="form-group">
-                                <label>@WebGalleryProject.Models.Question.Questions[i]</label>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="BoolAnswer@(i + 1)" id="BoolAnswer@(i + 1)Yes" value="true" required>
-                                    <label class="form-check-label" for="BoolAnswer@(i + 1)Yes">Yes</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="BoolAnswer@(i + 1)" id="BoolAnswer@(i + 1)No" value="false" required>
-                                    <label class="form-check-label" for="BoolAnswer@(i + 1)No">No</label>
-                                </div>
+                            <h3>Odpowiedz na pytania</h3>
+                            <div class="transparent-bg p-3 rounded">
+                                @using (Html.BeginForm("AddAnswer", "Image", new { id = Model.Image.Id.ToString() }, FormMethod.Post))
+                                {
+                                    for (int i = 0; i < MongoWebGallery.Models.Question.Questions.Length; i++)
+                                    {
+                                        <div class="form-group">
+                                            <label>@MongoWebGallery.Models.Question.Questions[i]</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="BoolAnswer@(i + 1)" id="BoolAnswer@(i + 1)Yes" value="true" required>
+                                                <label class="form-check-label" for="BoolAnswer@(i + 1)Yes">Tak</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="BoolAnswer@(i + 1)" id="BoolAnswer@(i + 1)No" value="false" required>
+                                                <label class="form-check-label" for="BoolAnswer@(i + 1)No">Nie</label>
+                                            </div>
+                                        </div>
+                                    }
+                                    <div class="form-group">
+                                        <label>Oceń ten obraz:</label>
+                                        <input type="range" name="RatingAnswer" class="form-range" min="1" max="5" step="1" required>
+                                        <small class="form-text text-muted">Oceń od 1 do 5</small>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Wyślij</button>
+                                }
                             </div>
                         }
-                        <div class="form-group">
-                            <label>Rate this image:</label>
-                            <input type="range" name="RatingAnswer" class="form-range" min="1" max="5" step="1" required>
-                            <small class="form-text text-muted">Rate from 1 to 5</small>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    }
-                }
-                else
-                {
-                    <h3>You have already answered the questions for this image.</h3>
-                }
+                        else
+                        {
+                            <h3>Już odpowiedziałeś na pytania dotyczące tego obrazu.</h3>
+                        }
+                    </div>
+                </div>
             }
         </div>
-    </div>
 
-    <!-- Sekcja komentarzy -->
-    <div class="row mt-4">
-        <div class="col-md-12">
-            <h3>Comments</h3>
-            <ul class="list-group" id="commentList">
+        <div class="col-md-12 comments-section">
+            <h3>Komentarze</h3>
+            <ul class="comment-list">
                 @foreach (var comment in Model.Comments)
                 {
-                    <li class="list-group-item" data-user-id="@comment.UserId">
-                        <strong class="user-name">Loading...</strong> - @comment.CreatedDate.ToString("g")
+                    <li class="comment-item" data-user-id="@comment.UserId">
+                        <span class="user-name">Użytkownik</span>
                         <p>@comment.Content</p>
                     </li>
                 }
             </ul>
-        </div>
-    </div>
 
-    <!-- Formularz dodawania komentarzy -->
-    @if (User.Identity.IsAuthenticated && Model.Image.UserId != Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)))
-    {
-        <div class="row mt-4">
-            <div class="col-md-12">
-                <h3>Add a Comment</h3>
+            @if (User.Identity.IsAuthenticated)
+            {
                 @using (Html.BeginForm("AddComment", "Image", new { id = Model.Image.Id.ToString() }, FormMethod.Post))
                 {
                     <div class="form-group">
-                        <label for="content">Comment:</label>
+                        <label for="content">Dodaj komentarz:</label>
                         <textarea id="content" name="Content" class="form-control" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Wyślij</button>
                 }
-            </div>
+            }
         </div>
-    }
+    </div>
 </div>
 
 @section Scripts {
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const commentList = document.getElementById('commentList');
+            const commentList = document.querySelector('.comment-list');
             const commentItems = commentList.querySelectorAll('li');
 
             commentItems.forEach(async (item) => {
@@ -169,15 +177,23 @@
                             const userName = await response.json();
                             item.querySelector('.user-name').textContent = userName;
                         } else {
-                            item.querySelector('.user-name').textContent = "Unknown User";
+                            item.querySelector('.user-name').textContent = "Nieznany użytkownik";
                         }
                     } catch (error) {
-                        console.error('Error fetching user name:', error);
-                        item.querySelector('.user-name').textContent = "Error fetching name";
+                        console.error('Błąd podczas pobierania nazwy użytkownika:', error);
+                        item.querySelector('.user-name').textContent = "Błąd podczas pobierania nazwy";
                     }
                 }
             });
         });
     </script>
 }
-    
+
+<style>
+    .transparent-bg {
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 5px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    }
+</style>

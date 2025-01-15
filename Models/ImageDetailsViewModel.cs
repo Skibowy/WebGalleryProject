@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using System.Collections.Generic;
 
-namespace WebGalleryProject.Models
+namespace MongoWebGallery.Models
 {
     public class ImageDetailsViewModel
     {
@@ -12,7 +12,7 @@ namespace WebGalleryProject.Models
         public List<Comment> Comments { get; set; }
         public bool HasUserAnswered { get; set; }
         public Answer UserAnswer { get; set; }
-        public int AnswersCount { get; set; } // Liczba odpowiedzi
+        public int AnswersCount { get; set; }
         public DateTime CreatedDate { get; set; }
         public string OwnerName { get; set; }
     }

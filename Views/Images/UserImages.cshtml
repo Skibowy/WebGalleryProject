@@ -1,22 +1,21 @@
-﻿@model WebGalleryProject.Models.UserImagesViewModel
+﻿@model MongoWebGallery.Models.UserImagesViewModel
 
-<div class="container">
-    <h2>Public Images by @Model.UserName</h2>
+<div class="container image-container">
+    <h2>Obrazy publiczne użytkownika @Model.UserName</h2>
 
-    <div class="row">
+    <div class="gallery-grid">
         @foreach (var image in Model.Images)
         {
-            <div class="col-md-4 mb-4">
-                <a href="@Url.Action("Details", "Images", new { id = image.Id.ToString() })">
-                    <img src="data:image/png;base64,@image.Base64Image" class="img-fluid" alt="@image.Name" style="width: 100%; height: 200px; object-fit: cover; border-radius: 5px;" />
+            <div class="gallery-item">
+                <a href="@Url.Action("Details", "Image", new { id = image.Id.ToString() })">
+                    <img src="data:image/png;base64,@image.Base64Image" alt="@image.Name" />
                 </a>
-                <p>@image.Name</p>
             </div>
         }
     </div>
 
     @if (!Model.Images.Any())
     {
-        <p>No public images found for this user.</p>
+        <p>Brak publicznych obrazów dla tego użytkownika.</p>
     }
 </div>

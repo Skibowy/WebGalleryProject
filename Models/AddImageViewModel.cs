@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using MongoDB.Bson;
-using System.Collections.Generic;
+﻿using MongoDB.Bson;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebGalleryProject.Models
+namespace MongoWebGallery.Models
 {
     public class AddImageViewModel
     {
@@ -15,10 +13,10 @@ namespace WebGalleryProject.Models
 
         public bool IsPublic { get; set; } = false;
 
-        [Required(ErrorMessage = "Please upload a valid image file.")]
+        [Required(ErrorMessage = "Proszę przesłać poprawny plik obrazu.")]
         public IFormFile ImageFile { get; set; } = null!;
 
-        [Required(ErrorMessage = "Please select at least one tag.")]
+        [Required(ErrorMessage = "Proszę wybrać co najmniej jeden tag.")]
         public ObjectId? SelectedTag1 { get; set; }
 
         public ObjectId? SelectedTag2 { get; set; }
@@ -28,7 +26,9 @@ namespace WebGalleryProject.Models
         [Required]
         public ObjectId SelectedCategoryId { get; set; }
 
-        [Required(ErrorMessage = "Please select a technology.")]
-        public ObjectId SelectedTechnologyId { get; set; }
+        public ObjectId? SelectedTechnologyId { get; set; }
+
+        public string? NewTechnology { get; set; }
+        public string? NewTechnologyUrl { get; set; }
     }
 }

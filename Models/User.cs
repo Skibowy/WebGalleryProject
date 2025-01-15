@@ -1,9 +1,9 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebGalleryProject.Models;
-
-public class User
+namespace MongoWebGallery.Models
 {
+    public class User
+    {
         [Required]
         public string Name { get; set; } = null!;
 
@@ -14,4 +14,5 @@ public class User
         [Required]
         public string Password { get; set; } = null!;
 
+    }
 }

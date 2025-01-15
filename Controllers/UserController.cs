@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver.Core.Authentication;
-using WebGalleryProject.Models;
+using MongoWebGallery.Models;
 
-namespace WebGalleryProject.Controllers
+namespace MongoWebGallery.Controllers
 {
     public class UserController : Controller
     {
@@ -33,14 +33,14 @@ namespace WebGalleryProject.Controllers
                 var existingUserByEmail = await _userManager.FindByEmailAsync(user.Email);
                 if (existingUserByEmail != null)
                 {
-                    ModelState.AddModelError("Email", "Email is already in use.");
+                    ModelState.AddModelError("Email", "Adres e-mail jest już w użyciu.");
                     return View(user);
                 }
 
                 var existingUserByName = await _userManager.FindByNameAsync(user.Name);
                 if (existingUserByName != null)
                 {
-                    ModelState.AddModelError("UserName", "User name is already in use.");
+                    ModelState.AddModelError("UserName", "Nazwa użytkownika jest już w użyciu.");
                     return View(user);
                 }
 
@@ -55,7 +55,7 @@ namespace WebGalleryProject.Controllers
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(appUser, "Admin");
-                    ViewBag.Message = "User Created Successfully";
+                    ViewBag.Message = "Użytkownik został pomyślnie utworzony.";
                 }
                 else
                 {
@@ -68,7 +68,6 @@ namespace WebGalleryProject.Controllers
             return View(user);
         }
 
-
         [HttpPost]
         public async Task<IActionResult> CreateRole(UserRole userRole)
         {
@@ -77,14 +76,14 @@ namespace WebGalleryProject.Controllers
                 bool roleExists = await _roleManager.RoleExistsAsync(userRole.RoleName);
                 if (roleExists)
                 {
-                    ModelState.AddModelError("RoleName", "Role already exists.");
+                    ModelState.AddModelError("RoleName", "Rola o takiej nazwie już istnieje.");
                     return View(userRole);
                 }
 
                 IdentityResult result = await _roleManager.CreateAsync(new ApplicationRole() { Name = userRole.RoleName });
                 if (result.Succeeded)
                 {
-                    ViewBag.Message = "Role Created Successfully";
+                    ViewBag.Message = "Rola została pomyślnie utworzona.";
                 }
                 else
                 {
@@ -101,8 +100,7 @@ namespace WebGalleryProject.Controllers
         public async Task<IActionResult> GetUserName(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            return Json(user?.UserName ?? "Unknown");
+            return Json(user?.UserName ?? "Nieznany");
         }
-
     }
 }

@@ -1,18 +1,24 @@
-﻿@model WebGalleryProject.Models.Technology
+﻿@model MongoWebGallery.Models.Technology
 
-<h2>Create New Technology</h2>
+<div class="container my-5">
+    <div class="bg-dark bg-opacity-75 p-4 rounded shadow">
+        <h2 class="text-white mb-4">Dodaj nową technologię</h2>
 
-<form asp-action="Create">
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+        <form asp-action="Create">
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="form-label text-white">Nazwa</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Url" class="form-label text-white">URL</label>
+                <input asp-for="Url" class="form-control" />
+                <span asp-validation-for="Url" class="text-danger"></span>
+            </div>
+            <div class="d-flex">
+                <button type="submit" class="btn btn-primary me-2">Dodaj</button>
+                <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label asp-for="Url"></label>
-        <input asp-for="Url" class="form-control" />
-        <span asp-validation-for="Url" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Create</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</form>
+</div>

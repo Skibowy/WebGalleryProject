@@ -1,12 +1,12 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using WebGalleryProject.Models;
+using MongoWebGallery.Models;
 using System.Reflection;
 
-namespace WebGalleryProject.Controllers
+namespace MongoWebGallery.Controllers
 {
     public class ImagesController : Controller
     {
@@ -16,6 +16,7 @@ namespace WebGalleryProject.Controllers
         private readonly IMongoCollection<Answer> _answerCollection;
         private readonly IMongoCollection<Technology> _technologyCollection;
         private readonly UserManager<ApplicationUser> _userManager;
+
         public ImagesController(
             IMongoCollection<Image> imageCollection,
             IMongoCollection<Category> categoryCollection,
@@ -71,7 +72,6 @@ namespace WebGalleryProject.Controllers
                 }
             }
 
-            // Dodanie wyszukiwania po nazwie
             if (!string.IsNullOrEmpty(searchQuery))
             {
                 filterDefinition = Builders<Image>.Filter.And(filterDefinition, Builders<Image>.Filter.Regex(image => image.Name, new BsonRegularExpression(searchQuery, "i")));
@@ -84,7 +84,7 @@ namespace WebGalleryProject.Controllers
                     sortDefinition = Builders<Image>.Sort.Descending(image => image.CreatedDate);
                     break;
                 case "rating":
-                    sortDefinition = Builders<Image>.Sort.Descending(image => image.AverageRating); // Sortowanie po AverageRating
+                    sortDefinition = Builders<Image>.Sort.Descending(image => image.AverageRating);
                     break;
                 case "views":
                     sortDefinition = Builders<Image>.Sort.Descending(image => image.ViewCount);
@@ -134,7 +134,6 @@ namespace WebGalleryProject.Controllers
                 return BadRequest();
             }
 
-            // Znajdź technologię na podstawie jej ID
             var technology = await _technologyCollection
                 .Find(t => t.Id == objectId)
                 .FirstOrDefaultAsync();
@@ -144,7 +143,6 @@ namespace WebGalleryProject.Controllers
                 return NotFound();
             }
 
-            // Pobierz wszystkie obrazy związane z daną technologią
             var images = await _imageCollection
                 .Find(i => i.IsPublic && i.TechnologyId == objectId)
                 .ToListAsync();
@@ -161,27 +159,23 @@ namespace WebGalleryProject.Controllers
         [Authorize]
         public async Task<IActionResult> UserImages(Guid userId)
         {
-            // Znajdź użytkownika na podstawie jego ID
             var user = await _userManager.FindByIdAsync(userId.ToString());
             if (user == null)
             {
-                return NotFound(); // Jeśli nie znaleziono użytkownika, zwracamy błąd 404
+                return NotFound();
             }
 
-            // Pobierz wszystkie publiczne obrazy przypisane do tego użytkownika
             var images = await _imageCollection
                 .Find(i => i.IsPublic && i.UserId == userId)
                 .ToListAsync();
 
-            // Tworzymy ViewModel dla wyświetlenia obrazów użytkownika
             var viewModel = new UserImagesViewModel
             {
                 UserName = user.UserName,
                 Images = images
             };
 
-            return View(viewModel); // Zwracamy widok z obrazami użytkownika
+            return View(viewModel);
         }
-
     }
 }

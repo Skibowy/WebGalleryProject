@@ -1,9 +1,14 @@
-using AspNetCore.Identity.MongoDbCore.Models;
+﻿using AspNetCore.Identity.MongoDbCore.Models;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDbGenericRepository.Attributes;
-namespace WebGalleryProject.Models;
+using System.Collections.Generic;
 
-[CollectionName("Users")]
-public class ApplicationUser : MongoIdentityUser<Guid>
+namespace MongoWebGallery.Models
 {
-
+    [CollectionName("Users")]
+    public class ApplicationUser : MongoIdentityUser<Guid>
+    {
+        public List<ObjectId> Images { get; set; } = new List<ObjectId>();
+    }
 }

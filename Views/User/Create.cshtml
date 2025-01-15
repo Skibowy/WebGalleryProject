@@ -1,48 +1,55 @@
-﻿@model WebGalleryProject.Models.User
+﻿@model MongoWebGallery.Models.User
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Zarejestruj się";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <section class="create-page no-scroll">
-    <!-- Dodano klasę no-scroll -->
     <div class="container">
         <div class="row d-flex justify-content-center align-items-center">
             <div class="col-12 col-md-8 col-lg-5 col-xl-4">
                 <div class="card bg-dark text-white" style="border-radius: 1rem;">
                     <div class="card-body text-center">
                         <div class="mb-md-5 mt-md-4 pb-5">
-                            <h2 class="fw-bold mb-2 text-uppercase">Create your account</h2>
+                            <h2 class="fw-bold mb-2 text-uppercase">Utwórz konto</h2>
                             <br>
 
                             <form asp-action="Create">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                                 <div class="form-outline form-white mb-3">
-                                    <input asp-for="Name" class="form-control form-control-lg" placeholder="Username" required />
-                                    <label asp-for="Name" class="form-label">Username</label>
+                                    <input asp-for="Name" class="form-control form-control-lg" required />
+                                    <label asp-for="Name" class="form-label">Nazwa użytkownika</label>
                                     <span asp-validation-for="Name" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-outline form-white mb-3">
-                                    <input asp-for="Email" class="form-control form-control-lg" placeholder="Email" required />
+                                    <input asp-for="Email" class="form-control form-control-lg" required />
                                     <label asp-for="Email" class="form-label">Email</label>
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-outline form-white mb-3">
-                                    <input asp-for="Password" class="form-control form-control-lg" placeholder="Password" required />
-                                    <label asp-for="Password" class="form-label">Password</label>
+                                    <input asp-for="Password" class="form-control form-control-lg" required />
+                                    <label asp-for="Password" class="form-label">Hasło</label>
                                     <span asp-validation-for="Password" class="text-danger"></span>
                                 </div>
 
-                                <button class="btn btn-outline-light btn-lg px-5 mb-2" type="submit">Create</button>
+                                <!-- Checkbox z oświadczeniem (wymagany) -->
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" id="acceptTerms" name="acceptTerms" required />
+                                    <label class="form-check-label" for="acceptTerms">
+                                        Akceptuję <a href="/Home/Privacy" class="text-white">regulamin witryny</a>
+                                    </label>
+                                </div>
+
+                                <button class="btn btn-outline-light btn-lg px-5 mb-2" type="submit">Utwórz konto</button>
                             </form>
                         </div>
 
                         <div>
-                            <p class="mb-0">Already have an account? <a href="/Account/Login" class="text-white-50 fw-bold">Login</a></p>
+                            <p class="mb-0">Masz już konto? <a href="/Account/Login" class="text-white-50 fw-bold">Zaloguj się</a></p>
                         </div>
                     </div>
                 </div>

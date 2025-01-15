@@ -2,11 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using WebGalleryProject.Models;
-using System.Reflection;
+using MongoWebGallery.Models;
 using System.Threading.Tasks;
 
-namespace WebGalleryProject.Controllers
+namespace MongoWebGallery.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class TagController : Controller
@@ -24,14 +23,12 @@ namespace WebGalleryProject.Controllers
             return View(tags);
         }
 
-        // GET: Create tag form
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Create new tag
         [HttpPost]
         public async Task<IActionResult> Create(Models.Tag tag)
         {
@@ -78,5 +75,4 @@ namespace WebGalleryProject.Controllers
             return RedirectToAction("Index");
         }
     }
-
 }

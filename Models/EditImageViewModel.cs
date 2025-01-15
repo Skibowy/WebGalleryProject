@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebGalleryProject.Models
+namespace MongoWebGallery.Models
 {
     public class EditImageViewModel
     {
@@ -16,7 +16,7 @@ namespace WebGalleryProject.Models
 
         public bool IsPublic { get; set; } = false;
 
-        [Required(ErrorMessage = "Please select at least one tag.")]
+        [Required(ErrorMessage = "Proszę wybrać przynajmniej jeden tag.")]
         public ObjectId? SelectedTag1 { get; set; }
 
         public ObjectId? SelectedTag2 { get; set; }
@@ -26,7 +26,7 @@ namespace WebGalleryProject.Models
         [Required]
         public ObjectId SelectedCategoryId { get; set; }
 
-        [Required(ErrorMessage = "Please select a technology.")]
+        [Required(ErrorMessage = "Proszę wybrać technologię.")]
         public ObjectId SelectedTechnologyId { get; set; }
     }
 }

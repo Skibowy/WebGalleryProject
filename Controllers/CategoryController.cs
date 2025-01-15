@@ -2,11 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using WebGalleryProject.Models;
+using MongoWebGallery.Models;
 using System.Threading.Tasks;
-using WebGalleryProject.Models;
 
-namespace WebGalleryProject.Controllers
+namespace MongoWebGallery.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
@@ -24,14 +23,12 @@ namespace WebGalleryProject.Controllers
             return View(categories);
         }
 
-        // GET: Create category form
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Create new category
         [HttpPost]
         public async Task<IActionResult> Create(Category category)
         {
@@ -49,7 +46,6 @@ namespace WebGalleryProject.Controllers
                 }
             }
 
-            // Zwróć widok "Create" z danymi modelu
             return View(category);
         }
 

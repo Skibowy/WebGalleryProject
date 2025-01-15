@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
-using WebGalleryProject.Models;
+using MongoWebGallery.Models;
 using System.Threading.Tasks;
 using MongoDB.Bson;
-using WebGalleryProject.Models;
 
-namespace WebGalleryProject.Controllers
+namespace MongoWebGallery.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class TechnologyController : Controller
@@ -18,21 +17,18 @@ namespace WebGalleryProject.Controllers
             _technologyCollection = database.GetCollection<Technology>("Technologies");
         }
 
-        // Wyświetla listę technologii
         public IActionResult Index()
         {
             var technologies = _technologyCollection.Find(_ => true).ToList();
             return View(technologies);
         }
 
-        // GET: Tworzenie nowej technologii
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Tworzenie nowej technologii
         [HttpPost]
         public async Task<IActionResult> Create(Technology technology)
         {
@@ -52,7 +48,6 @@ namespace WebGalleryProject.Controllers
             return View(technology);
         }
 
-        // GET: Edytowanie technologii
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
@@ -62,7 +57,6 @@ namespace WebGalleryProject.Controllers
             return View(technology);
         }
 
-        // POST: Edytowanie technologii
         [HttpPost]
         public async Task<IActionResult> Edit(Technology updatedTechnology)
         {
@@ -74,7 +68,6 @@ namespace WebGalleryProject.Controllers
             return View(updatedTechnology);
         }
 
-        // POST: Usuwanie technologii
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {

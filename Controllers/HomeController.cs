@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
-using WebGalleryProject.Models;
+using MongoWebGallery.Models;
+using System.Threading.Tasks;
 
-namespace WebGalleryProject.Controllers
+namespace MongoWebGallery.Controllers
 {
-	public class HomeController : Controller
+    public class HomeController : Controller
     {
         private readonly IMongoCollection<Image> _imageCollection;
         private readonly IMongoCollection<Answer> _answerCollection;
@@ -34,14 +35,19 @@ namespace WebGalleryProject.Controllers
                 }
             }
 
-
             var topRatedImages = publicImages.OrderByDescending(i => i.AverageRating).Take(5).ToList();
 
             var mostViewedImages = publicImages.OrderByDescending(i => i.ViewCount).Take(5).ToList();
 
             ViewBag.TopRatedImages = topRatedImages;
-            ViewBag.MostViewedImages = mostViewedImages; 
+            ViewBag.MostViewedImages = mostViewedImages;
+
             return View(publicImages);
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
         }
     }
 }

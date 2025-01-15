@@ -5,14 +5,18 @@ using System;
 
 namespace MongoWebGallery.Models
 {
-    [CollectionName("Comments")]
-    public class Comment
+    [CollectionName("Answers")]
+    public class Answer
     {
         [BsonId]
         public ObjectId Id { get; set; }
         public Guid UserId { get; set; }
         public ObjectId ImageId { get; set; }
-        public string Content { get; set; }
+        public bool BoolAnswer1 { get; set; }
+        public bool BoolAnswer2 { get; set; }
+        public bool BoolAnswer3 { get; set; }
+        public bool BoolAnswer4 { get; set; }
+        public int RatingAnswer { get; set; }
         public DateTime CreatedDate { get; set; }
     }
 }

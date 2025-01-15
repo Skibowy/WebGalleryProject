@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebGalleryProject.Models
+namespace MongoWebGallery.Models
 {
     public class UserSettingsViewModel
     {

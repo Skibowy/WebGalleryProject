@@ -1,13 +1,24 @@
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDbGenericRepository.Attributes;
+using System;
 
-namespace WebGalleryProject.Models;
-[CollectionName("Technologies")]
-public class Technology
+namespace MongoWebGallery.Models
 {
-    [BsonId]
-    public ObjectId Id { get; set; }
-    public string Name { get; set; }
-    public string Url { get; set; }
+    [CollectionName("Technologies")]
+    public class Technology
+    {
+        [BsonId]
+        public ObjectId Id { get; set; }
+
+        [BsonRequired]
+        public string Name { get; set; }
+
+        [BsonRequired]
+        public string Url { get; set; }
+
+        public bool IsApproved { get; set; } = false;
+
+        public Guid? SubmittedBy { get; set; }
+    }
 }

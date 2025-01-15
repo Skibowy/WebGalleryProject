@@ -1,16 +1,16 @@
-
-namespace WebGalleryProject.Models;
-
-public class Question
+﻿namespace MongoWebGallery.Models
 {
-    public static readonly string[] Questions = new[]
-            {
-            "Czy powyzsze dzielo moze uchodzic za przygotowane przez czlowieka?",
-            "Czy miales wczesniej do czynienia z dzielem podobnym?",
-            "Czy uwazasz ze jest sens uzywac sztucznej inteligencji do generowania podobnych dziel?",
-            "Czy wygenerowane dzielo jest twoim zdaniem zgodne z instrukcja?",
+    public static class Question
+    {
+        public static readonly string[] Questions = new[]
+        {
+            "Czy powyższe dzieło może uchodzić za przygotowane przez człowieka?",
+            "Czy miałeś wcześniej do czynienia z podobnymi dziełami?",
+            "Czy uważasz, że jest sens używać sztucznej inteligencji do generowania podobnych dzieł?",
+            "Czy wygenerowane dzieło jest twoim zdaniem zgodne z opisem/prompterem?",
             "Jak oceniasz dzieło w skali od 1 do 5?"
         };
 
-    public static readonly int RatingQuestionIndex = 4; // Indeks pytania o ocenę
+        public static readonly int QuestionNumber = 4;
+    }
 }

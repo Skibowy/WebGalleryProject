@@ -1,28 +1,35 @@
-﻿@model IEnumerable<WebGalleryProject.Models.Tag>
+﻿@model IEnumerable<MongoWebGallery.Models.Tag>
 
-<h2>Tags</h2>
+<div class="container my-5">
+    <div class="bg-dark bg-opacity-75 p-4 rounded shadow">
+        <h2 class="text-white mb-4">Zarządzaj tagami</h2>
+        <a asp-action="Create" class="btn btn-primary mb-3">Dodaj nowy tag</a>
 
-<a asp-action="Create" class="btn btn-primary">Create New Tag</a>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var tag in Model)
-        {
-                <tr>
-                    <td>@tag.Name</td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@tag.Id" class="btn btn-sm btn-secondary">Edit</a>
-                        <form asp-action="Delete" asp-route-id="@tag.Id" method="post" style="display:inline;">
-                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-        }
-    </tbody>
-</table>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-dark">
+                <thead>
+                    <tr>
+                        <th>Nazwa</th>
+                        <th class="text-end">Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tag in Model)
+                    {
+                        <tr>
+                            <td>@tag.Name</td>
+                            <td class="text-end">
+                                <div class="d-flex justify-content-end">
+                                    <a asp-action="Edit" asp-route-id="@tag.Id" class="btn btn-sm btn-secondary mx-1">Edytuj</a>
+                                    <form asp-action="Delete" asp-route-id="@tag.Id" method="post" style="display:inline;">
+                                        <button type="submit" class="btn btn-sm btn-danger mx-1">Usuń</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
