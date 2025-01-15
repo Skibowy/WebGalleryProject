@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver.Core.Authentication;
 using MongoWebGallery.Models;
 
 namespace MongoWebGallery.Controllers
